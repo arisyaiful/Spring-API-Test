@@ -1,0 +1,40 @@
+azure:
+  activedirectory:
+    # Specifies your Active Directory ID:
+    tenant-id: 614b5a48-3e2e-4c59-92d1-52f3732ca410
+    # Specifies your App Registration's Application ID:
+    client-id: 2acf5646-29b2-4b82-bbd6-55d3ae7d55db
+    # Specifies your App Registration's secret key:
+    client-secret: PNi8Q~lF41l4QpIbfQkxG8fQ.4~Dre1JAdZ2ZcOm
+    # redirect-uri-template: '{baseUrl}/login/oauth2/code/{registrationId}'
+    # redirect-uri-template: '{baseUrl}/token_details'
+    # Specifies the post-log-out-redirect-uri, where to return your app after logout.
+    post-logout-redirect-uri: http://localhost:8080
+    # Specifies the Microsoft Graph scopes that your app needs access to - not required in this app.
+    authorization-clients:
+      graph:
+        scopes: https://graph.microsoft.com/User.Read
+
+# which routes to restrict to authenticated users only (see SecurityConfig.java):
+# enter String array (comma-separated) or just one route.
+# e.g. authenticated: /route1, /route2, /route3
+app:
+  protect:
+    authenticated: /token_details
+
+
+# logging:
+#   level:
+#     root: INFO
+#     com.memorynotfound: INFO
+#     org.springframework.web: INFO
+#     org.springframework.security: DEBUG
+
+# un-comment the following lines if you are deploying to a reverse proxy (e.g. Azure App Service)
+# server:
+#   forward-headers-strategy: native
+#   tomcat:
+#     remoteip:
+#       protocol-header: "X-Forwarded-Proto"
+#       remote-ip-header: "X-Forwarded-For"
+#       internal-proxies: ".*"
