@@ -30,7 +30,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Judul Post 1\",\n    \"description\": \"Deskripsi post 1\",\n    \"content\": \"Isi post pertama\",\n    \"category\": {\n        \"id\": 1\n    }\n}",
+					"raw": "{\n    \"title\": \"Judul Post 2\",\n    \"description\": \"Deskripsi post 2\",\n    \"content\": \"Isi post keedua\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -45,49 +45,6 @@
 					"path": [
 						"api",
 						"posts"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Category",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Accept",
-						"value": "*/*",
-						"type": "text"
-					},
-					{
-						"key": "X-API-KEY",
-						"value": "Basic 797adas79-43asdf6-6575ads7-asdasn99",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Olah Raga\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base_url}}/api/categories",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"categories"
 					]
 				}
 			},
@@ -116,7 +73,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1,\n    \"title\": \"Mouse Pad Dexa Premium\",\n    \"description\": \"Update deksripsi post 1\",\n    \"content\": \"Update konten post pertama\",\n    \"category\": {\n        \"id\": 1\n    }\n}",
+					"raw": "{\n    \"id\": 1,\n    \"title\": \"Judul di Update 222\",\n    \"description\": \"Update deksripsi post 122\",\n    \"content\": \"Update konten post pertama222\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -185,40 +142,6 @@
 			"response": []
 		},
 		{
-			"name": "Categories Find All",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Accept",
-						"value": "*/*",
-						"type": "text"
-					},
-					{
-						"key": "X-API-KEY",
-						"value": "Basic 797adas79-43asdf6-6575ads7-asdasn99",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{base_url}}/api/categories",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"api",
-						"categories"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Posts Find by id",
 			"request": {
 				"method": "GET",
@@ -240,14 +163,14 @@
 					}
 				],
 				"url": {
-					"raw": "{{base_url}}/api/products/4",
+					"raw": "{{base_url}}/api/posts/2",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"api",
-						"products",
-						"4"
+						"posts",
+						"2"
 					]
 				}
 			},
