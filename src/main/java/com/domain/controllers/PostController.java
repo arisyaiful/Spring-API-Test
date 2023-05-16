@@ -3,17 +3,13 @@ package com.domain.controllers;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
+import org.springframework.cache.annotation.Cacheable;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.domain.dto.ApiResponse;
-import com.domain.dto.ResponseData;
 import com.domain.helpers.UserAuthorize;
 import com.domain.model.entities.Posts;
 import com.domain.model.repo.PostsRepo;
@@ -51,25 +45,22 @@ public class PostController {
 
 
     @PostMapping
-    public ResponseEntity<ResponseData<Posts>> create(@Valid @RequestBody Posts posts, Errors errors) {
-        ResponseData<Posts> responseData = new ResponseData<>();
+    @Cacheable("posts_data")
+    public ResponseEntity create(@Valid @RequestBody Posts posts) {
+        boolean isAuth = userAuthorize.getAuthAccess();
+        if(isAuth==true){
 
-        if(errors.hasErrors()){
-            for(ObjectError error : errors.getAllErrors()){
-                responseData.getMessage().add(error.getDefaultMessage());
-            }
+            postsService.save(posts);
 
-            responseData.setStatus(false);
-            responseData.setPayload(null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
+            apiResponse.setApiResponse(0, 0, 0, "success", true, posts);
+            return ResponseEntity.ok(apiResponse);
         }
-        responseData.setStatus(true);
-        responseData.setPayload(postsService.save(posts));
-
-        return ResponseEntity.ok(responseData);
+        apiResponse.setApiResponse(0, 0, 0, "error", false, messageDesc.put("messages", "Unauthorized Access"));
+        return ResponseEntity.ok(apiResponse);
     }
 
     @GetMapping(params = { "sort", "page", "size" })
+    @Cacheable("get_data")
     public ResponseEntity findAll(@RequestParam("sort") String sort, @RequestParam("page") int page, 
     @RequestParam("size") int size){
         boolean isAuth = userAuthorize.getAuthAccess();
@@ -85,32 +76,45 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public Posts findById(@PathVariable("id") Long id){
-        return postsService.findOne(id);
+    @Cacheable("get_detail")
+    public ResponseEntity findById(@PathVariable("id") Long id){
+        boolean isAuth = userAuthorize.getAuthAccess();
+        if(isAuth==true){
+            Posts data = postsService.findOne(id);
+
+            apiResponse.setApiResponse(1, 0, 0, "success", true, data);
+            return ResponseEntity.ok(apiResponse);
+        }
+        apiResponse.setApiResponse(0, 0, 0, "error", false, messageDesc.put("message", "Unauthorized Access"));
+        return ResponseEntity.ok(apiResponse);
     }
 
     @PutMapping
-    public ResponseEntity<ResponseData<Posts>> update(@Valid @RequestBody Posts posts, Errors errors) {
-       
-        ResponseData<Posts> responseData = new ResponseData<>();
+    @Cacheable("update_data")
+    public ResponseEntity update(@Valid @RequestBody Posts posts) {
+        boolean isAuth = userAuthorize.getAuthAccess();
+        if(isAuth==true){
+            postsService.save(posts);
 
-        if(errors.hasErrors()){
-            for(ObjectError error : errors.getAllErrors()){
-                responseData.getMessage().add(error.getDefaultMessage());
-            }
-
-            responseData.setStatus(false);
-            responseData.setPayload(null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
+            apiResponse.setApiResponse(0, 0, 0, "success", true, posts);
+            return ResponseEntity.ok(apiResponse);
         }
-        
-        responseData.setStatus(true);
-        responseData.setPayload(postsService.save(posts));
-        return ResponseEntity.ok(responseData);
+        apiResponse.setApiResponse(0, 0, 0, "error", false, messageDesc.put("message", "Unauthorized Access"));
+        return ResponseEntity.ok(apiResponse);
     }
 
     @DeleteMapping("/{id}")
-    public void removeOne(@PathVariable("id") Long id){
-        postsService.removeOne(id);
+    @Cacheable("delete_data")
+    public ResponseEntity removeOne(@PathVariable("id") Long id){
+        boolean isAuth = userAuthorize.getAuthAccess();
+        if(isAuth==true){
+
+            postsService.removeOne(id);
+
+            apiResponse.setApiResponse(1, 0, 0, "success", true, messageDesc.put("message", "Data has been deleted"));
+            return ResponseEntity.ok(apiResponse);
+        }
+        apiResponse.setApiResponse(0, 0, 0, "error", false, messageDesc.put("message", "Unauthorized Access"));
+        return ResponseEntity.ok(apiResponse);
     }
 }

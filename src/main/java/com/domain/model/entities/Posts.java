@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -37,10 +36,6 @@ public class Posts implements Serializable{
 
 
 
-    
-
-    @ManyToOne
-    private Category category;
 
 
     public Posts() {
@@ -91,17 +86,7 @@ public class Posts implements Serializable{
         return serialVersionUID;
     }
 
-    public Category getCategory() {
-        return category;
-    }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    
-
-    
 
     
 }

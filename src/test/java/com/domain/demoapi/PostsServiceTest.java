@@ -2,16 +2,11 @@ package com.domain.demoapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import com.domain.model.entities.Category;
 import com.domain.model.entities.Posts;
-import com.domain.model.repo.CategoryRepo;
 import com.domain.model.repo.PostsRepo;
 
 @DataJpaTest
@@ -20,19 +15,19 @@ class PostsServiceTest {
     @Autowired
     private PostsRepo postsRepo;
 
-    @Autowired
-    private CategoryRepo catRepo;
 
     @Test
-        void save_insert_new_category() {
+        void save_insert_new_post() {
             // Given
-            Category newCat = new Category();
-            newCat.setName("Featured");
+            Posts newPost = new Posts();
+            newPost.setTitle("Test Judul 1");
+            newPost.setDescription("Deksripsi test");
+            newPost.setContent("Kontent Judul 1");
             // When
-            Category persistedCat = this.catRepo.save(newCat);
+            Posts persistedPost = this.postsRepo.save(newPost);
             // Then
-            assertNotNull(persistedCat);
-            assertEquals(1, persistedCat.getId());
+            assertNotNull(persistedPost);
+            assertEquals(1, persistedPost.getId());
         }
  
     @Test
